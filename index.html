@@ -1,0 +1,1289 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Southside Bank — Multi-Market Commercial Campaign · Lightbox Studios Quote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ================================================================
+     SOUTHSIDE BANK QUOTE — Lightbox Studios
+     Visual system blends:
+       · Lightbox Studios slate-gray foundation
+       · Lightbox Sign dark-mode burnt-orange accent
+       · Southside Bank navy (#003B5C) as the client primary
+     React-Native feel: card-based, smooth springy transitions, sheet
+     modals, soft shadows, no harsh borders. Tap targets ≥ 44px.
+  ================================================================ */
+
+  :root[data-theme="dark"] {
+    --bg:           #0b1220;
+    --bg-2:         #0f172a;
+    --surface:      #1a2336;
+    --surface-2:    #1e2940;
+    --surface-hov:  #243151;
+    --border:       #2a3650;
+    --border-soft:  #1e293b;
+    --text:         #f1f5f9;
+    --text-2:       #cbd5e1;
+    --text-3:       #94a3b8;
+    --text-4:       #64748b;
+
+    --slate:        #475569;
+    --slate-2:      #64748b;
+    --slate-soft:   #334155;
+
+    --orange:       #fb923c;
+    --orange-2:     #ea580c;
+    --orange-soft:  rgba(251, 146, 60, 0.12);
+    --orange-line:  rgba(251, 146, 60, 0.28);
+
+    --ssb:          #4a90b8;          /* SSB navy lifted for dark mode legibility */
+    --ssb-true:     #003B5C;          /* Real SSB brand navy */
+    --ssb-soft:     rgba(74, 144, 184, 0.12);
+    --ssb-line:     rgba(74, 144, 184, 0.32);
+
+    --good:         #4ade80;
+    --good-soft:    rgba(74, 222, 128, 0.10);
+
+    --shadow-sm:  0 1px 2px 0 rgba(0,0,0,.30);
+    --shadow-md:  0 4px 12px -2px rgba(0,0,0,.45), 0 2px 4px -1px rgba(0,0,0,.30);
+    --shadow-lg:  0 20px 40px -12px rgba(0,0,0,.55), 0 8px 16px -4px rgba(0,0,0,.35);
+  }
+
+  :root[data-theme="light"] {
+    --bg:           #f1f5f9;
+    --bg-2:         #e2e8f0;
+    --surface:      #ffffff;
+    --surface-2:    #f8fafc;
+    --surface-hov:  #f1f5f9;
+    --border:       #e2e8f0;
+    --border-soft:  #f1f5f9;
+    --text:         #0f172a;
+    --text-2:       #334155;
+    --text-3:       #64748b;
+    --text-4:       #94a3b8;
+
+    --slate:        #475569;
+    --slate-2:      #64748b;
+    --slate-soft:   #cbd5e1;
+
+    --orange:       #ea580c;
+    --orange-2:     #c2410c;
+    --orange-soft:  #fff7ed;
+    --orange-line:  #fed7aa;
+
+    --ssb:          #003B5C;
+    --ssb-true:     #003B5C;
+    --ssb-soft:     #eff6ff;
+    --ssb-line:     #bfdbfe;
+
+    --good:         #16a34a;
+    --good-soft:    #f0fdf4;
+
+    --shadow-sm:  0 1px 2px 0 rgba(15,23,42,.04);
+    --shadow-md:  0 4px 12px -2px rgba(15,23,42,.10), 0 2px 4px -1px rgba(15,23,42,.06);
+    --shadow-lg:  0 20px 40px -12px rgba(15,23,42,.15), 0 8px 16px -4px rgba(15,23,42,.10);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; min-height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color .35s ease, color .15s ease;
+    overflow-x: hidden;
+  }
+
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+  svg { display: inline-block; vertical-align: middle; }
+
+  /* Subtle background texture */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 0% 0%, var(--ssb-soft), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 100% 100%, var(--orange-soft), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+    opacity: .8;
+  }
+
+  /* ==================== HEADER ==================== */
+  .header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 80%, transparent);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--border);
+    transition: background-color .35s, border-color .35s;
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+    min-width: 0;
+  }
+  .brand-mark {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--orange), var(--orange-2));
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-md);
+    flex-shrink: 0;
+  }
+  .brand-mark svg { width: 20px; height: 20px; color: #fff; }
+  .brand-text { display: flex; flex-direction: column; min-width: 0; }
+  .brand-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.15rem; letter-spacing: .04em;
+    line-height: 1; color: var(--text);
+  }
+  .brand-sub {
+    font-size: .68rem; color: var(--text-3);
+    text-transform: uppercase; letter-spacing: .12em;
+    margin-top: 4px;
+  }
+
+  .header-spacer { flex: 1; }
+
+  .header-actions { display: flex; align-items: center; gap: 8px; }
+
+  .icon-btn {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-2);
+    display: flex; align-items: center; justify-content: center;
+    transition: all .18s ease;
+  }
+  .icon-btn:hover { background: var(--surface-hov); color: var(--text); transform: translateY(-1px); }
+  .icon-btn:active { transform: translateY(0); }
+  .icon-btn svg { width: 18px; height: 18px; }
+
+  .btn-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    height: 40px; padding: 0 16px;
+    font-size: .85rem; font-weight: 600;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    transition: all .18s ease;
+    cursor: pointer;
+  }
+  .btn-pill:active { transform: translateY(1px); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--orange), var(--orange-2));
+    color: #fff;
+    box-shadow: 0 4px 14px -2px color-mix(in srgb, var(--orange) 60%, transparent);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -4px color-mix(in srgb, var(--orange) 70%, transparent); }
+  .btn-secondary {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--text-2);
+  }
+  .btn-secondary:hover { background: var(--surface-hov); color: var(--text); }
+  .btn-pill svg { width: 16px; height: 16px; }
+
+  /* ==================== HERO ==================== */
+  .hero {
+    position: relative; z-index: 1;
+    max-width: 1200px;
+    margin: 48px auto 0;
+    padding: 0 24px;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px;
+    font-size: .72rem; font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ssb);
+    background: var(--ssb-soft);
+    border: 1px solid var(--ssb-line);
+    border-radius: 999px;
+    margin-bottom: 20px;
+  }
+  .hero-eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--ssb);
+    box-shadow: 0 0 10px var(--ssb);
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: .98;
+    letter-spacing: .01em;
+    margin: 0 0 14px;
+    color: var(--text);
+  }
+  .hero-title .accent { color: var(--orange); }
+  .hero-title .ssb-accent { color: var(--ssb); }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--text-3);
+    max-width: 720px;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 24px;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: .85rem;
+    color: var(--text-3);
+  }
+  .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .hero-meta-label {
+    font-size: .68rem; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--text-4);
+  }
+  .hero-meta-val { color: var(--text); font-weight: 600; font-size: .95rem; }
+
+  /* ==================== STATS GRID ==================== */
+  .section { position: relative; z-index: 1; max-width: 1200px; margin: 48px auto 0; padding: 0 24px; }
+  .section-head { margin-bottom: 20px; }
+  .section-eyebrow {
+    font-size: .72rem; font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--orange);
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 8px;
+  }
+  .section-eyebrow::before {
+    content: ''; width: 24px; height: 2px; background: var(--orange);
+    border-radius: 2px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem; line-height: 1; margin: 0;
+    color: var(--text); letter-spacing: .02em;
+  }
+  .section-sub { color: var(--text-3); font-size: .95rem; margin: 8px 0 0; max-width: 640px; line-height: 1.6; }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 768px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .stat:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .stat-label {
+    font-size: .68rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .12em;
+    color: var(--text-3);
+  }
+  .stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem; line-height: 1;
+    margin: 8px 0 4px;
+    letter-spacing: .02em;
+  }
+  .stat-value.orange { color: var(--orange); }
+  .stat-value.ssb    { color: var(--ssb); }
+  .stat-value.text   { color: var(--text); }
+  .stat-foot { font-size: .78rem; color: var(--text-3); }
+
+  /* ==================== TIMELINE ==================== */
+  .timeline {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+  }
+  .timeline-rail {
+    position: relative;
+    padding: 8px 0;
+  }
+  .timeline-rail::before {
+    content: '';
+    position: absolute; top: 16px; left: 16px; right: 16px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--ssb), var(--orange));
+    border-radius: 2px;
+  }
+  .timeline-points {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    position: relative;
+  }
+  @media (max-width: 768px) { .timeline-points { grid-template-columns: 1fr; }
+    .timeline-rail::before { display: none; }
+  }
+  .tp { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .tp-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid var(--ssb);
+    color: var(--ssb);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: .85rem;
+    box-shadow: 0 0 0 4px var(--bg);
+    z-index: 1;
+  }
+  .tp-dot.orange { border-color: var(--orange); color: var(--orange); }
+  .tp-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--text-3); font-weight: 600; }
+  .tp-date { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--text); line-height: 1; }
+  .tp-detail { font-size: .82rem; color: var(--text-3); line-height: 1.5; }
+
+  /* ==================== INCLUDES ==================== */
+  .includes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 768px) { .includes-grid { grid-template-columns: 1fr; } }
+  .include-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    transition: all .25s ease;
+  }
+  .include-card:hover { border-color: var(--orange-line); transform: translateY(-2px); }
+  .include-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: var(--orange-soft);
+    color: var(--orange);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+  }
+  .include-icon svg { width: 20px; height: 20px; }
+  .include-title { font-weight: 600; font-size: 1rem; margin: 0 0 6px; color: var(--text); }
+  .include-desc { font-size: .85rem; color: var(--text-3); line-height: 1.5; margin: 0; }
+
+  /* ==================== COMMERCIAL ACCORDION ==================== */
+  .commercials { display: flex; flex-direction: column; gap: 14px; }
+  .commercial {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: all .35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: var(--shadow-sm);
+  }
+  .commercial.open {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--ssb-line);
+    transform: translateY(-1px);
+  }
+  .commercial-head {
+    display: flex; align-items: center; gap: 18px;
+    padding: 22px 24px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    transition: background .2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .commercial-head:hover { background: var(--surface-hov); }
+  .c-num {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--ssb-soft);
+    color: var(--ssb);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    border: 1px solid var(--ssb-line);
+  }
+  .c-meta { flex: 1; min-width: 0; }
+  .c-loc {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.65rem; line-height: 1;
+    letter-spacing: .02em; color: var(--text);
+    margin: 0 0 6px;
+  }
+  .c-tag-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .c-tag {
+    font-size: .7rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-3);
+  }
+  .c-tag.orange { background: var(--orange-soft); border-color: var(--orange-line); color: var(--orange); }
+  .c-tag.ssb { background: var(--ssb-soft); border-color: var(--ssb-line); color: var(--ssb); }
+
+  .c-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.9rem;
+    color: var(--orange);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  @media (max-width: 600px) {
+    .c-price { display: none; }
+  }
+  .c-chev {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-2);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .35s cubic-bezier(0.34, 1.56, 0.64, 1), background .2s, color .2s;
+    flex-shrink: 0;
+  }
+  .commercial.open .c-chev {
+    transform: rotate(180deg);
+    background: var(--orange);
+    color: #fff;
+    border-color: var(--orange);
+  }
+
+  .commercial-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .commercial.open .commercial-body { max-height: 3500px; }
+  .commercial-body-inner {
+    padding: 0 24px 28px;
+    border-top: 1px solid var(--border-soft);
+    margin-top: 0;
+  }
+
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 22px;
+    margin-top: 22px;
+  }
+  @media (max-width: 900px) { .body-grid { grid-template-columns: 1fr; } }
+
+  .panel-title {
+    font-size: .72rem; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--orange);
+    margin: 0 0 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .panel-title::before {
+    content: ''; width: 18px; height: 2px;
+    background: var(--orange); border-radius: 2px;
+  }
+
+  /* Schedule list */
+  .schedule {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .schedule li {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    align-items: flex-start;
+  }
+  .schedule .day {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem; line-height: 1;
+    color: var(--ssb);
+    background: var(--ssb-soft);
+    border: 1px solid var(--ssb-line);
+    border-radius: 8px;
+    padding: 8px 0;
+    text-align: center;
+    letter-spacing: .04em;
+  }
+  .schedule .sched-title {
+    font-weight: 600; font-size: .92rem; color: var(--text);
+    margin-bottom: 4px;
+  }
+  .schedule .sched-sub {
+    font-size: .82rem; color: var(--text-3); line-height: 1.5;
+  }
+
+  /* Pricing breakdown table */
+  .pricing-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+    padding: 18px;
+  }
+  .pricing-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: .88rem;
+  }
+  .pricing-row:last-of-type { border-bottom: 0; }
+  .pr-label { color: var(--text-2); }
+  .pr-sub { color: var(--text-4); font-size: .76rem; display: block; margin-top: 2px; }
+  .pr-amt { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; padding-left: 12px; }
+
+  .pricing-total {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, var(--ssb-soft), var(--orange-soft));
+    border: 1px solid var(--orange-line);
+    border-radius: 12px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .pricing-total .lbl {
+    font-size: .72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .12em;
+    color: var(--text);
+  }
+  .pricing-total .amt {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--orange);
+    line-height: 1;
+  }
+
+  /* Deliverables for each commercial */
+  .deliv {
+    margin-top: 22px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border-soft);
+  }
+  .deliv-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+  }
+  @media (max-width: 700px) { .deliv-grid { grid-template-columns: 1fr; } }
+  .deliv-item {
+    padding: 12px 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .deliv-item .check {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--good-soft);
+    color: var(--good);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .deliv-item .check svg { width: 11px; height: 11px; }
+  .deliv-item .txt { font-size: .85rem; color: var(--text-2); line-height: 1.4; }
+
+  /* ==================== GRAND TOTAL CARD ==================== */
+  .total-card {
+    background: linear-gradient(135deg, var(--ssb-true) 0%, color-mix(in srgb, var(--ssb-true) 70%, #000) 100%);
+    border-radius: 24px;
+    padding: 36px;
+    color: #fff;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .total-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 100% 0%, rgba(251, 146, 60, .25), transparent 60%),
+      radial-gradient(ellipse 50% 50% at 0% 100%, rgba(74, 144, 184, .15), transparent 60%);
+    pointer-events: none;
+  }
+  .total-inner { position: relative; z-index: 1; }
+  .total-eyebrow {
+    font-size: .72rem; letter-spacing: .14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.7);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .total-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 5vw, 3rem); line-height: 1;
+    letter-spacing: .02em;
+    margin: 0 0 22px;
+  }
+  .total-headline .o { color: var(--orange); }
+  .total-table { display: flex; flex-direction: column; gap: 8px; margin-bottom: 22px; }
+  .total-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+    font-size: .92rem;
+  }
+  .total-row .lbl { color: rgba(255,255,255,.85); }
+  .total-row .amt { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .total-row.total-subtotal {
+    margin-top: 6px;
+    border-top: 1px solid rgba(255,255,255,.25);
+    border-bottom: 1px solid rgba(255,255,255,.12);
+    padding-top: 14px;
+  }
+  .total-row.total-subtotal .lbl,
+  .total-row.total-subtotal .amt {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  .total-grand {
+    margin-top: 18px;
+    padding: 22px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 14px;
+  }
+  .total-grand .lbl {
+    font-size: .85rem; letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.85);
+    font-weight: 600;
+  }
+  .total-grand .amt {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 3.8rem); line-height: 1;
+    color: var(--orange);
+    letter-spacing: .02em;
+  }
+  .total-foot {
+    font-size: .82rem;
+    color: rgba(255,255,255,.6);
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+
+  /* ==================== TERMS / FOOTER ==================== */
+  .terms {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 26px;
+  }
+  .terms-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+  @media (max-width: 700px) { .terms-grid { grid-template-columns: 1fr; } }
+  .terms h4 {
+    font-size: .78rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .1em;
+    color: var(--orange);
+    margin: 0 0 8px;
+  }
+  .terms p { font-size: .88rem; color: var(--text-2); line-height: 1.6; margin: 0 0 6px; }
+
+  .footer {
+    max-width: 1200px;
+    margin: 60px auto 40px;
+    padding: 28px 24px;
+    text-align: center;
+    color: var(--text-3);
+    font-size: .82rem;
+    border-top: 1px solid var(--border);
+  }
+  .footer .brand-line {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    color: var(--text);
+    letter-spacing: .04em;
+    margin-bottom: 6px;
+  }
+
+  /* Toolbar of expand-all controls */
+  .toolbar {
+    display: flex; gap: 10px;
+    margin-bottom: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .toolbar-spacer { flex: 1; }
+  .chip-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 34px; padding: 0 14px;
+    font-size: .82rem; font-weight: 500;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-2);
+    transition: all .18s;
+  }
+  .chip-btn:hover { background: var(--surface-hov); color: var(--text); }
+  .chip-btn svg { width: 14px; height: 14px; }
+
+  /* ==================== PRINT / PDF ====================
+     Goal: pixel-faithful to the on-screen styling, no half-split blocks. */
+  @media print {
+    @page {
+      size: letter portrait;
+      margin: 0.45in;
+    }
+
+    /* Force-preserve every color & background */
+    *, *::before, *::after {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    /* Drop the fixed radial gradient — it doesn't repeat across pages
+       and causes the first page to look different from the rest. The
+       solid theme bg below is the ground truth. */
+    body::before { display: none !important; }
+
+    html, body {
+      background: var(--bg) !important;
+      color: var(--text) !important;
+    }
+
+    /* Header: keep visible on the first page only, no longer sticky */
+    .header {
+      position: static !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background: var(--surface) !important;
+    }
+    .header-actions { display: none !important; }
+
+    /* Hide UI controls that don't belong in a printed quote */
+    .toolbar { display: none !important; }
+    .icon-btn, .btn-pill { display: none !important; }
+    .c-chev { display: none !important; }
+
+    /* Force every commercial dropdown open */
+    .commercial {
+      box-shadow: none !important;
+    }
+    .commercial-body {
+      max-height: none !important;
+      overflow: visible !important;
+    }
+
+    /* Keep logical units intact across page breaks */
+    .hero,
+    .stat,
+    .timeline,
+    .timeline-points,
+    .include-card,
+    .commercial,
+    .commercial-body-inner,
+    .schedule li,
+    .pricing-card,
+    .pricing-total,
+    .deliv-grid,
+    .deliv-item,
+    .total-card,
+    .terms,
+    .terms-grid > div,
+    .footer {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+
+    /* Section headings stick with their content */
+    .section-head { page-break-after: avoid; break-after: avoid; }
+    .panel-title { page-break-after: avoid; break-after: avoid; }
+
+    /* Top-level sections may break BETWEEN them */
+    .section { page-break-inside: auto; break-inside: auto; }
+
+    /* Sensible page margins between major blocks */
+    .section { margin-top: 28px !important; }
+    .hero { margin-top: 24px !important; }
+
+    /* The gradient total card prints cleanly when colors are preserved */
+    .total-card { box-shadow: none !important; }
+
+    /* Make sure the c-price is visible even on mobile breakpoint quirks */
+    .c-price { display: inline-block !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== HEADER ============== -->
+<header class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2 L4 6 L4 14 C4 18 8 21 12 22 C16 21 20 18 20 14 L20 6 Z"/>
+          <path d="M9 12 L11 14 L15 10"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="brand-name">LIGHTBOX STUDIOS</div>
+        <div class="brand-sub">Production Quote · Q-2026-SSB-048</div>
+      </div>
+    </div>
+    <div class="header-spacer"></div>
+    <div class="header-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+        <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+      <button class="btn-pill btn-secondary" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
+        Print / PDF
+      </button>
+      <button class="btn-pill btn-primary" onclick="document.getElementById('total').scrollIntoView({behavior:'smooth'})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        Total
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="hero-eyebrow"><span class="dot"></span>Prepared for Southside Bank · Confidential</div>
+  <h1 class="hero-title">
+    Multi-Market <span class="ssb-accent">Commercial</span><br/>
+    <span class="accent">Campaign · 2026</span>
+  </h1>
+  <p class="hero-sub">Production quote covering four :30 commercials with billboard and ad photography across Tyler, Lufkin, Fort Worth, and Austin.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">Client</div>
+      <div class="hero-meta-val">Southside Bank</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">Production Window</div>
+      <div class="hero-meta-val">May 13 – Jun 25, 2026</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">Markets</div>
+      <div class="hero-meta-val">Tyler · Lufkin · Fort Worth · Austin</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">Deliverable</div>
+      <div class="hero-meta-val">4 × :30 Spots + Stills</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">Quote Issued</div>
+      <div class="hero-meta-val">May 7, 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== AT-A-GLANCE STATS ============== -->
+<section class="section">
+  <div class="section-head">
+    <div class="section-eyebrow">At a Glance</div>
+    <h2 class="section-title">Campaign by the Numbers</h2>
+  </div>
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-label">Markets</div>
+      <div class="stat-value text">4</div>
+      <div class="stat-foot">Tyler · Lufkin · Fort Worth · Austin</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Commercials</div>
+      <div class="stat-value ssb">4 × :30</div>
+      <div class="stat-foot">Broadcast & digital cuts included</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Total Production Days</div>
+      <div class="stat-value text">20</div>
+      <div class="stat-foot">5 days per market</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Campaign Total</div>
+      <div class="stat-value orange">$72,700</div>
+      <div class="stat-foot">+ $5,000 refundable contingency</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TIMELINE ============== -->
+<section class="section">
+  <div class="section-head">
+    <div class="section-eyebrow">Schedule</div>
+    <h2 class="section-title">Campaign Timeline</h2>
+    <p class="section-sub">Each market receives a dedicated five-day cycle on the schedule below.</p>
+  </div>
+  <div class="timeline">
+    <div class="timeline-rail">
+      <div class="timeline-points">
+        <div class="tp">
+          <div class="tp-dot">1</div>
+          <div class="tp-label">Tyler</div>
+          <div class="tp-date">May 13 – 18</div>
+          <div class="tp-detail">5-day production cycle</div>
+        </div>
+        <div class="tp">
+          <div class="tp-dot">2</div>
+          <div class="tp-label">Lufkin</div>
+          <div class="tp-date">Jun 07 – 12</div>
+          <div class="tp-detail">5-day production cycle</div>
+        </div>
+        <div class="tp">
+          <div class="tp-dot">3</div>
+          <div class="tp-label">Fort Worth</div>
+          <div class="tp-date">Jun 13 – 17</div>
+          <div class="tp-detail">5-day production cycle</div>
+        </div>
+        <div class="tp">
+          <div class="tp-dot">4</div>
+          <div class="tp-label">Austin</div>
+          <div class="tp-date">Jun 18 – 23</div>
+          <div class="tp-detail">5-day production cycle</div>
+        </div>
+        <div class="tp">
+          <div class="tp-dot orange">✓</div>
+          <div class="tp-label">Final Delivery</div>
+          <div class="tp-date">Jun 22 – 25</div>
+          <div class="tp-detail">Master files + stills</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== INCLUDES ============== -->
+<section class="section">
+  <div class="section-head">
+    <div class="section-eyebrow">Every Spot Includes</div>
+    <h2 class="section-title">What's Included, Per Market</h2>
+    <p class="section-sub">Each commercial is delivered turn-key. Travel and lodging are bundled into the per-market price.</p>
+  </div>
+  <div class="includes-grid">
+    <div class="include-card">
+      <div class="include-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="m17 10 4-2v8l-4-2"/></svg>
+      </div>
+      <h3 class="include-title">3 Days Principal Photography</h3>
+      <p class="include-desc">Two days dedicated to nature, environmental, and drone coverage. Day three at the Southside Bank branch for interiors and exteriors.</p>
+    </div>
+    <div class="include-card">
+      <div class="include-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M5 12 2 9l3-3M19 12l3-3-3-3M12 5 9 2 6 5M12 19l-3 3 3-3"/></svg>
+      </div>
+      <h3 class="include-title">Drone &amp; Aerial Coverage</h3>
+      <p class="include-desc">Cinematic aerials of the branch and surrounding market captured during the principal photography window.</p>
+    </div>
+    <div class="include-card">
+      <div class="include-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M3 17h18M9 21h6"/></svg>
+      </div>
+      <h3 class="include-title">Billboard &amp; Ad Stills</h3>
+      <p class="include-desc">High-resolution stills captured on the branch day — selected, retouched, and licensed for billboard, OOH, and digital placements.</p>
+    </div>
+    <div class="include-card">
+      <div class="include-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h12"/></svg>
+      </div>
+      <h3 class="include-title">2 Days Post-Production</h3>
+      <p class="include-desc">Editorial, sound design and mix, color grade, motion graphics, and a licensed music bed. One round of revisions included.</p>
+    </div>
+    <div class="include-card">
+      <div class="include-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6c0-2 2-3 4-3h10c2 0 4 1 4 3v12c0 2-2 3-4 3H7c-2 0-4-1-4-3Z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+      </div>
+      <h3 class="include-title">Travel &amp; Lodging</h3>
+      <p class="include-desc">All travel, lodging, fuel, and on-set meals are bundled into the per-market price.</p>
+    </div>
+    <div class="include-card">
+      <div class="include-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+      </div>
+      <h3 class="include-title">Final Delivery</h3>
+      <p class="include-desc">Broadcast and digital masters, social cuts, and selected retouched stills delivered for each market.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== COMMERCIALS / DROPDOWNS ============== -->
+<section class="section">
+  <div class="section-head">
+    <div class="section-eyebrow">Per-Market Detail</div>
+    <h2 class="section-title">The Four Commercials</h2>
+    <p class="section-sub">Tap any market to expand the full schedule, scope, deliverables, and price breakdown for that spot. Each is identical in structure and price — what changes is the place, the people, and the story.</p>
+  </div>
+
+  <div class="toolbar">
+    <button class="chip-btn" onclick="setAll(true)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      Expand all
+    </button>
+    <button class="chip-btn" onclick="setAll(false)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+      Collapse all
+    </button>
+    <div class="toolbar-spacer"></div>
+    <span style="font-size: .78rem; color: var(--text-3);">4 commercials · 5 production days each</span>
+  </div>
+
+  <div class="commercials" id="commercials"></div>
+</section>
+
+<!-- ============== GRAND TOTAL ============== -->
+<section class="section" id="total">
+  <div class="section-head">
+    <div class="section-eyebrow">Investment Summary</div>
+    <h2 class="section-title">Campaign Total</h2>
+  </div>
+  <div class="total-card">
+    <div class="total-inner">
+      <div class="total-eyebrow">Southside Bank · 2026 Multi-Market Campaign</div>
+      <div class="total-table">
+        <div class="total-row"><span class="lbl">Tyler · :30 Commercial · all-inclusive</span><span class="amt">$17,500</span></div>
+        <div class="total-row"><span class="lbl">Lufkin · :30 Commercial · all-inclusive</span><span class="amt">$18,350</span></div>
+        <div class="total-row"><span class="lbl">Fort Worth · :30 Commercial · all-inclusive</span><span class="amt">$18,350</span></div>
+        <div class="total-row"><span class="lbl">Austin · :30 Commercial · all-inclusive</span><span class="amt">$18,500</span></div>
+        <div class="total-row total-subtotal"><span class="lbl">Production Subtotal</span><span class="amt">$72,700</span></div>
+        <div class="total-row"><span class="lbl">Refundable Project Contingency</span><span class="amt">$5,000</span></div>
+      </div>
+      <div class="total-grand">
+        <span class="lbl">Total Invoiced</span>
+        <span class="amt">$77,700</span>
+      </div>
+      <p class="total-foot">The $5,000 contingency is held in reserve for any reshoot days, unforeseen rentals, or unplanned expenses. Any unused balance is refunded to Southside Bank at project completion. All other line items are inclusive of principal photography (3 days), branch day, post-production (2 days), billboard &amp; ad stills, and all travel and lodging.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TERMS ============== -->
+<section class="section">
+  <div class="section-head">
+    <div class="section-eyebrow">Terms &amp; Acceptance</div>
+    <h2 class="section-title">How We Move Forward</h2>
+  </div>
+  <div class="terms">
+    <div class="terms-grid">
+      <div>
+        <h4>Payment</h4>
+        <p>Total invoiced in three equal installments of approximately 33% — the first on signed acceptance, the second at the midpoint of production, and the final on delivery of all four spots.</p>
+      </div>
+      <div>
+        <h4>Revisions</h4>
+        <p>One round of editorial, color, and audio revisions per spot is included.</p>
+      </div>
+      <div>
+        <h4>Usage &amp; Rights</h4>
+        <p>Southside Bank receives full, perpetual usage rights for all delivered spots and stills across broadcast, OOH, digital, and social. Lightbox retains the right to use behind-the-scenes and select B-roll for portfolio.</p>
+      </div>
+      <div>
+        <h4>Weather &amp; Reschedules</h4>
+        <p>Aerial and exterior days are weather-dependent. If a re-shoot is required due to weather, it is rescheduled within the production window at no additional cost when crew availability allows.</p>
+      </div>
+      <div>
+        <h4>Branch Coordination</h4>
+        <p>Southside Bank will assign a point person to help coordinate any employee-specific talent and branch access for the on-location day. Lightbox Studios will handle all release forms.</p>
+      </div>
+      <div>
+        <h4>Acceptance</h4>
+        <p>This quote is valid for 30 days from issue. Acceptance via signed PO, email confirmation, or counter-signed agreement triggers production scheduling and the first invoice.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="footer">
+  <div class="brand-line">LIGHTBOX STUDIOS</div>
+  <div>Quote Q-2026-SSB-048 · Issued May 7, 2026 · Valid 30 days</div>
+  <div style="margin-top:6px;">Prepared for Southside Bank · Lufkin · Tyler · Austin · Fort Worth</div>
+</footer>
+
+<!-- ============== JS: data + interactivity ============== -->
+<script>
+  // ---------- Theme toggle ----------
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+  const iconMoon = document.getElementById('iconMoon');
+  const iconSun  = document.getElementById('iconSun');
+
+  function applyTheme(t) {
+    root.setAttribute('data-theme', t);
+    iconMoon.style.display = t === 'dark' ? 'none' : '';
+    iconSun.style.display  = t === 'dark' ? '' : 'none';
+    try { localStorage.setItem('ssb-quote-theme', t); } catch(e){}
+  }
+  themeBtn.addEventListener('click', () => {
+    const cur = root.getAttribute('data-theme');
+    applyTheme(cur === 'dark' ? 'light' : 'dark');
+  });
+  try {
+    const saved = localStorage.getItem('ssb-quote-theme');
+    if (saved) applyTheme(saved);
+    else applyTheme('dark');
+  } catch(e) { applyTheme('dark'); }
+
+  // ---------- Commercial data ----------
+  // Order matches production schedule: Tyler → Lufkin → Fort Worth → Austin
+  const commercials = [
+    { id: 'tyler',     city: 'Tyler',      dates: 'May 13 – 18, 2026',  total: 17500 },
+    { id: 'lufkin',    city: 'Lufkin',     dates: 'June 07 – 12, 2026', total: 18350 },
+    { id: 'fortworth', city: 'Fort Worth', dates: 'June 13 – 17, 2026', total: 18350 },
+    { id: 'austin',    city: 'Austin',     dates: 'June 18 – 23, 2026', total: 18500 }
+  ];
+
+  // ---------- Schedule template (identical per spot) ----------
+  const schedule = [
+    { day: 'D1', title: 'Principal Photography — Nature & Drone',         sub: 'Photography and filming of nature scenes, environmental b-roll, and aerial drone coverage.' },
+    { day: 'D2', title: 'Principal Photography — Nature & Drone',         sub: 'Continued photography and filming of nature scenes, environmental b-roll, and aerial drone coverage.' },
+    { day: 'D3', title: 'Branch Day — Building Interiors & Exteriors',    sub: 'On-location at the Southside Bank branch capturing building exteriors and interiors.' },
+    { day: 'D4', title: 'Post-Production — Day 1',                        sub: 'Editorial, sound design, and music selection.' },
+    { day: 'D5', title: 'Post-Production — Day 2 · Delivery',             sub: 'Color grade, final audio mix, motion graphics, and master delivery.' }
+  ];
+
+  // ---------- Pricing breakdown — condensed, per-city travel variable ----------
+  // Tyler $17,500 · Lufkin $18,350 · Fort Worth $18,350 · Austin $18,500
+  function breakdownFor(cityId) {
+    const travel = {
+      tyler:     1500,
+      lufkin:    2350,
+      fortworth: 2350,
+      austin:    2500
+    }[cityId];
+    return [
+      { label: 'Pre-Production &amp; Coordination',         amt: 1500 },
+      { label: 'Principal Photography (3 Days)',           amt: 7500 },
+      { label: 'Branch Day &amp; Billboard / Ad Stills',    amt: 2500 },
+      { label: 'Post-Production (2 Days)',                 amt: 4500 },
+      { label: 'Travel &amp; Logistics',                    amt: travel }
+    ];
+  }
+
+  const deliverables = [
+    ":30 broadcast master (ProRes 422 HQ)",
+    ":30 digital master (H.264 1080p)",
+    "Square &amp; vertical social cuts",
+    "5 retouched billboard / OOH stills",
+    "10 retouched digital ad stills",
+    "Project source files archive (1 yr)"
+  ];
+
+  // ---------- Render commercials ----------
+  const fmt = n => '$' + n.toLocaleString('en-US');
+
+  function renderCommercial(c, idx) {
+    const rows = breakdownFor(c.id);
+    const breakdownRows = rows.map(b => `
+      <div class="pricing-row">
+        <div class="pr-label">${b.label}</div>
+        <div class="pr-amt">${fmt(b.amt)}</div>
+      </div>
+    `).join('');
+
+    const scheduleItems = schedule.map(s => `
+      <li>
+        <div class="day">${s.day}</div>
+        <div>
+          <div class="sched-title">${s.title}</div>
+          <div class="sched-sub">${s.sub}</div>
+        </div>
+      </li>
+    `).join('');
+
+    const delivItems = deliverables.map(d => `
+      <div class="deliv-item">
+        <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span>
+        <span class="txt">${d}</span>
+      </div>
+    `).join('');
+
+    return `
+      <article class="commercial" data-id="${c.id}">
+        <button class="commercial-head" aria-expanded="false" onclick="toggleCard('${c.id}')">
+          <div class="c-num">0${idx + 1}</div>
+          <div class="c-meta">
+            <h3 class="c-loc">${c.city}, Texas</h3>
+            <div class="c-tag-row">
+              <span class="c-tag ssb">${c.dates}</span>
+              <span class="c-tag orange">5 production days</span>
+              <span class="c-tag">:30 commercial + stills</span>
+            </div>
+          </div>
+          <div class="c-price">${fmt(c.total)}</div>
+          <div class="c-chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+        </button>
+        <div class="commercial-body">
+          <div class="commercial-body-inner">
+
+            <div class="body-grid">
+              <div>
+                <h4 class="panel-title">5-Day Production Schedule</h4>
+                <ul class="schedule">${scheduleItems}</ul>
+              </div>
+
+              <div>
+                <h4 class="panel-title">Cost Breakdown</h4>
+                <div class="pricing-card">
+                  ${breakdownRows}
+                </div>
+                <div class="pricing-total">
+                  <span class="lbl">${c.city} · All-Inclusive</span>
+                  <span class="amt">${fmt(c.total)}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="deliv">
+              <h4 class="panel-title">Final Deliverables</h4>
+              <div class="deliv-grid">${delivItems}</div>
+            </div>
+
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  document.getElementById('commercials').innerHTML =
+    commercials.map((c, i) => renderCommercial(c, i)).join('');
+
+  function toggleCard(id) {
+    const el = document.querySelector(`.commercial[data-id="${id}"]`);
+    if (!el) return;
+    const isOpen = el.classList.toggle('open');
+    el.querySelector('.commercial-head').setAttribute('aria-expanded', String(isOpen));
+  }
+
+  function setAll(open) {
+    document.querySelectorAll('.commercial').forEach(el => {
+      el.classList.toggle('open', !!open);
+      const h = el.querySelector('.commercial-head');
+      if (h) h.setAttribute('aria-expanded', String(!!open));
+    });
+  }
+
+  // Open the first card by default for instant context
+  setTimeout(() => toggleCard('tyler'), 200);
+</script>
+
+</body>
+</html>
