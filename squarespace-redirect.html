@@ -1,0 +1,51 @@
+<!--
+  ==============================================================
+  LIGHTBOX · SQUARESPACE REDIRECT TO QUOTE
+  Drop this whole snippet into a Squarespace Code Block on the
+  page you want to forward visitors from.
+
+  When a visitor lands on the page, they're routed straight to:
+    https://southsidebank.lightboxcollective.co
+
+  The cinematic loading screen lives inside the quote itself —
+  this snippet is intentionally minimal so the redirect feels
+  instant. There's a noscript fallback meta-refresh too, so it
+  works even with JavaScript disabled.
+  ==============================================================
+-->
+
+<meta http-equiv="refresh" content="0; url=https://southsidebank.lightboxcollective.co/">
+
+<style>
+  .lbx-redirect-fallback {
+    position: fixed;
+    inset: 0;
+    background: #0b1220;
+    color: #f1f5f9;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 999999;
+    padding: 24px;
+  }
+  .lbx-redirect-fallback a {
+    color: #fb923c;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+</style>
+
+<div class="lbx-redirect-fallback">
+  <div>
+    Redirecting to your quote&hellip;<br/>
+    <small style="color:#94a3b8;">If you aren't redirected automatically,
+      <a href="https://southsidebank.lightboxcollective.co/">tap here</a>.
+    </small>
+  </div>
+</div>
+
+<script>
+  window.location.replace('https://southsidebank.lightboxcollective.co/');
+</script>
