@@ -1,0 +1,259 @@
+<!--
+  ==============================================================
+  LIGHTBOX · QUOTE LOADING REDIRECT
+  Drop this into a Squarespace Code Block on the redirect page.
+
+  HOW TO USE
+  1. Edit the QUOTE_URL constant below to the destination link.
+  2. Adjust REDIRECT_DELAY (ms) if you want a longer hold.
+  3. Paste the entire snippet (everything between the lines)
+     into a Code Block in Squarespace. No external assets.
+
+  Notes
+  · Self-contained — scoped to .lbx-loader-* so it won't collide
+    with Squarespace's CSS.
+  · Uses the Lightbox brand orange + slate-dark palette and the
+    pulsing "live-dot" indicator from the Lightbox Sign dashboard.
+  · Fades in on load, then fades out at the moment of redirect.
+  · Respects prefers-reduced-motion.
+  ==============================================================
+-->
+
+<style>
+  /* Lightbox loading overlay — scoped */
+  .lbx-loader-root {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: #0b1220;
+    color: #f1f5f9;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    animation: lbx-overlay-in 480ms cubic-bezier(0.22, 1, 0.36, 1) 60ms forwards;
+  }
+  .lbx-loader-root.lbx-fade-out {
+    animation: lbx-overlay-out 420ms cubic-bezier(0.4, 0, 1, 1) forwards;
+  }
+
+  /* Soft brand glow behind everything */
+  .lbx-loader-root::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 45% at 50% 40%, rgba(251, 146, 60, 0.14), transparent 60%),
+      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(74, 144, 184, 0.10), transparent 60%);
+    pointer-events: none;
+  }
+
+  .lbx-loader-stage {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    padding: 0 24px;
+    max-width: 520px;
+    text-align: center;
+  }
+
+  /* Lightbox brand mark — same shield used in the quote header */
+  .lbx-loader-mark {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #fb923c, #ea580c);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 14px 40px -8px rgba(251, 146, 60, 0.45),
+      0 4px 12px -2px rgba(0, 0, 0, 0.5);
+    animation: lbx-mark-in 700ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+  }
+  .lbx-loader-mark svg {
+    width: 32px;
+    height: 32px;
+    color: #ffffff;
+  }
+
+  /* Eyebrow */
+  .lbx-loader-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #94a3b8;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    animation: lbx-fade-up 600ms cubic-bezier(0.22, 1, 0.36, 1) 240ms both;
+  }
+
+  /* The "dinodor" — pulsing live-dot from Lightbox Sign */
+  .lbx-loader-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fb923c;
+    box-shadow: 0 0 12px rgba(251, 146, 60, 0.85);
+    animation: lbx-pulse 1.6s ease-in-out infinite;
+  }
+
+  /* Main headline */
+  .lbx-loader-title {
+    font-family: 'Bebas Neue', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    margin: 0;
+    color: #f1f5f9;
+    animation: lbx-fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) 320ms both;
+  }
+  .lbx-loader-title .lbx-accent { color: #fb923c; }
+
+  /* Subline */
+  .lbx-loader-sub {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    margin: 0;
+    line-height: 1.55;
+    animation: lbx-fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) 420ms both;
+  }
+
+  /* Indeterminate progress bar */
+  .lbx-loader-bar {
+    width: 220px;
+    height: 3px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.18);
+    overflow: hidden;
+    position: relative;
+    margin-top: 4px;
+    animation: lbx-fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) 520ms both;
+  }
+  .lbx-loader-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -40%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #fb923c, #ea580c, transparent);
+    border-radius: 999px;
+    animation: lbx-bar-slide 1.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+
+  /* Wordmark */
+  .lbx-loader-wordmark {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Bebas Neue', 'Inter', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.22em;
+    color: #475569;
+    animation: lbx-fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) 620ms both;
+  }
+
+  @keyframes lbx-overlay-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes lbx-overlay-out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+  }
+  @keyframes lbx-mark-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.92); }
+    to   { opacity: 1; transform: translateY(0)   scale(1); }
+  }
+  @keyframes lbx-fade-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes lbx-pulse {
+    0%, 100% { opacity: 1;   transform: scale(1); }
+    50%      { opacity: 0.4; transform: scale(0.85); }
+  }
+  @keyframes lbx-bar-slide {
+    0%   { left: -40%; }
+    100% { left: 100%; }
+  }
+
+  /* Reduced motion: keep visibility, kill the movement */
+  @media (prefers-reduced-motion: reduce) {
+    .lbx-loader-root,
+    .lbx-loader-mark,
+    .lbx-loader-eyebrow,
+    .lbx-loader-title,
+    .lbx-loader-sub,
+    .lbx-loader-bar,
+    .lbx-loader-wordmark {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .lbx-loader-dot { animation: none !important; }
+    .lbx-loader-bar::after { animation: none !important; left: 0; width: 100%; }
+  }
+</style>
+
+<div class="lbx-loader-root" id="lbxLoaderRoot" role="status" aria-live="polite" aria-label="Your quote is loading">
+  <div class="lbx-loader-stage">
+    <div class="lbx-loader-mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2 L4 6 L4 14 C4 18 8 21 12 22 C16 21 20 18 20 14 L20 6 Z"/>
+        <path d="M9 12 L11 14 L15 10"/>
+      </svg>
+    </div>
+
+    <div class="lbx-loader-eyebrow">
+      <span class="lbx-loader-dot" aria-hidden="true"></span>
+      Lightbox Studios &middot; Secure Quote
+    </div>
+
+    <h1 class="lbx-loader-title">
+      Your Quote is <span class="lbx-accent">Loading</span>
+    </h1>
+
+    <p class="lbx-loader-sub">
+      Preparing your project details. You'll be redirected automatically in just a moment.
+    </p>
+
+    <div class="lbx-loader-bar" aria-hidden="true"></div>
+  </div>
+
+  <div class="lbx-loader-wordmark">LIGHTBOX</div>
+</div>
+
+<script>
+(function () {
+  // ============== CONFIGURE ==============
+  var QUOTE_URL      = 'https://2026ssbqoute048.vercel.app/';
+  var REDIRECT_DELAY = 2200; // ms — total time the loading screen shows
+  var FADE_DURATION  = 420;  // ms — fade-out before navigation
+  // =======================================
+
+  // Honor reduced-motion: redirect faster with no fade
+  var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reducedMotion) {
+    REDIRECT_DELAY = 800;
+    FADE_DURATION  = 0;
+  }
+
+  setTimeout(function () {
+    var root = document.getElementById('lbxLoaderRoot');
+    if (root && FADE_DURATION > 0) root.classList.add('lbx-fade-out');
+    setTimeout(function () { window.location.replace(QUOTE_URL); }, FADE_DURATION);
+  }, REDIRECT_DELAY);
+})();
+</script>
