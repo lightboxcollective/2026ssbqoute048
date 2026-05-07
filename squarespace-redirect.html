@@ -1,25 +1,28 @@
 <!--
   ==============================================================
   LIGHTBOX · SQUARESPACE REDIRECT TO QUOTE
-  Drop this whole snippet into a Squarespace Code Block on the
-  page you want to forward visitors from.
+  Drop into a Squarespace Code Block (NOT an Embed Block).
 
-  When a visitor lands on the page, they're routed straight to:
-    https://southsidebank.lightboxcollective.co
+  PRIMARY destination:  https://southsidebank.lightboxcollective.co
+  FALLBACK destination: https://2026ssbqoute048.vercel.app
 
-  The cinematic loading screen lives inside the quote itself —
-  this snippet is intentionally minimal so the redirect feels
-  instant. There's a noscript fallback meta-refresh too, so it
-  works even with JavaScript disabled.
+  Strategy:
+  · Top-level navigation via window.top to break out of any iframe
+    Squarespace might wrap the Code Block in.
+  · Fires immediately AND on DOMContentLoaded for redundancy.
+  · <meta refresh> and a tap-here link as last-resort fallbacks.
+  · No animation here — the cinematic loader lives inside the
+    quote itself, so the visitor sees a clean instant handoff.
   ==============================================================
 -->
 
 <meta http-equiv="refresh" content="0; url=https://southsidebank.lightboxcollective.co/">
 
 <style>
-  .lbx-redirect-fallback {
+  .lbx-handoff {
     position: fixed;
     inset: 0;
+    z-index: 999999;
     background: #0b1220;
     color: #f1f5f9;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -27,25 +30,44 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    z-index: 999999;
     padding: 24px;
   }
-  .lbx-redirect-fallback a {
-    color: #fb923c;
-    text-decoration: underline;
-    font-weight: 600;
-  }
+  .lbx-handoff a { color: #fb923c; font-weight: 600; text-decoration: underline; }
+  .lbx-handoff small { color: #94a3b8; display: block; margin-top: 8px; font-size: 0.85rem; }
 </style>
 
-<div class="lbx-redirect-fallback">
+<div class="lbx-handoff" role="status" aria-live="polite">
   <div>
-    Redirecting to your quote&hellip;<br/>
-    <small style="color:#94a3b8;">If you aren't redirected automatically,
-      <a href="https://southsidebank.lightboxcollective.co/">tap here</a>.
+    Redirecting to your quote&hellip;
+    <small>
+      If you aren't redirected automatically,
+      <a href="https://southsidebank.lightboxcollective.co/" target="_top">tap here</a>.
     </small>
   </div>
 </div>
 
 <script>
-  window.location.replace('https://southsidebank.lightboxcollective.co/');
+(function () {
+  var URL_PRIMARY  = 'https://southsidebank.lightboxcollective.co/';
+  var URL_FALLBACK = 'https://2026ssbqoute048.vercel.app/';
+
+  function go(url) {
+    // Break out of any iframe Squarespace may have wrapped this block in.
+    try { window.top.location.replace(url); return; } catch (e) {}
+    try { window.parent.location.replace(url); return; } catch (e) {}
+    window.location.replace(url);
+  }
+
+  // Fire immediately…
+  go(URL_PRIMARY);
+
+  // …and again after the document is ready, in case the first call
+  // was blocked by a still-loading parent frame.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { go(URL_PRIMARY); });
+  }
+
+  // If we're still here after 2 seconds, fall back to the Vercel URL directly.
+  setTimeout(function () { go(URL_FALLBACK); }, 2000);
+})();
 </script>
